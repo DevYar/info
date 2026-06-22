@@ -178,15 +178,14 @@ body.cursor-drag  #cur-ring{width:80px;height:80px;opacity:.9;background:var(--g
 }
 .split-text .word .inner{
   display:inline-block;
-  transform:translateY(110%);
-  opacity:0;
+  transform:translateY(0%);
+  opacity:1;
   transition:transform .7s cubic-bezier(.16,1,.3,1), opacity .4s ease;
 }
-/* Safety fallback — if JS doesn't load, show everything */
-.no-js .split-text .word .inner,
-.no-js .fade-up {
-  transform:none !important;
-  opacity:1 !important;
+/* Only animate when JS adds .anim class */
+.split-text.anim .word .inner{
+  transform:translateY(110%);
+  opacity:0;
 }
 .split-text.revealed .word .inner{
   transform:translateY(0);opacity:1;
@@ -204,9 +203,10 @@ body.cursor-drag  #cur-ring{width:80px;height:80px;opacity:.9;background:var(--g
 .split-text.revealed .word:nth-child(9)  .inner{transition-delay:.45s}
 .split-text.revealed .word:nth-child(10) .inner{transition-delay:.5s}
 
-/* fade-up utility */
-.fade-up{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
-.fade-up.revealed{opacity:1;transform:translateY(0);}
+/* fade-up — visible by default, animated only when JS adds .anim */
+.fade-up{opacity:1;transform:translateY(0);transition:opacity .7s ease,transform .7s ease;}
+.fade-up.anim{opacity:0;transform:translateY(28px);}
+.fade-up.revealed{opacity:1 !important;transform:translateY(0) !important;}
 .fd1{transition-delay:.1s}.fd2{transition-delay:.2s}.fd3{transition-delay:.3s}
 .fd4{transition-delay:.4s}.fd5{transition-delay:.5s}.fd6{transition-delay:.6s}
 
@@ -1095,7 +1095,7 @@ function type() {
 }
 type();
 
-/* ── WORD SPLIT ANIMATION ── */
+/* ── WORD SPLIT ANIMATION — progressive enhancement ── */
 function splitWords(el) {
   if (!el) return;
   const text = el.innerHTML;
@@ -1105,8 +1105,13 @@ function splitWords(el) {
       ? `<span class="word"><span class="inner">${w}</span></span>`
       : w
   ).join('');
+  /* Only hide text if JS is fully working */
+  el.classList.add('anim');
 }
 document.querySelectorAll('.split-text').forEach(el => splitWords(el));
+
+/* Add anim class to fade-up elements only if JS works */
+document.querySelectorAll('.fade-up').forEach(el => el.classList.add('anim'));
 
 /* ── SCROLL SPY + REVEAL ── */
 const sw   = document.getElementById('sw');
