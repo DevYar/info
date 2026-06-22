@@ -625,13 +625,53 @@ body.cursor-drag  #cur-ring{width:80px;height:80px;opacity:.9;background:var(--g
 .c-lnk-val{font-size:.85rem;font-weight:500;color:var(--ink);}
 
 /* ══════════════════════════════
-   LIGHTBOX
+   LIGHTBOX — fullscreen
 ══════════════════════════════ */
-.lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:99990;align-items:center;justify-content:center;padding:20px;}
+.lb{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.95);z-index:99990;
+  align-items:center;justify-content:center;
+  padding:20px;flex-direction:column;gap:12px;
+}
 .lb.open{display:flex;}
-.lb img{max-height:90vh;max-width:90vw;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6);}
-.lb-x{position:fixed;top:20px;right:24px;font-size:1.8rem;color:white;cursor:none;background:none;border:none;opacity:.7;transition:opacity .2s;line-height:1;}
-.lb-x:hover{opacity:1;}
+.lb-img-wrap{
+  max-height:85vh;max-width:92vw;
+  display:flex;align-items:center;justify-content:center;
+}
+.lb-img-wrap img{
+  max-height:85vh;max-width:88vw;
+  border-radius:12px;
+  box-shadow:0 20px 80px rgba(0,0,0,.8);
+  object-fit:contain;
+  transition:opacity .25s ease;
+}
+.lb-x{
+  position:fixed;top:18px;right:22px;
+  font-size:1.6rem;color:white;
+  cursor:pointer;background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:50%;width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.lb-x:hover{background:rgba(255,255,255,.25);}
+.lb-prev,.lb-next{
+  position:fixed;top:50%;transform:translateY(-50%);
+  font-size:2.5rem;color:white;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:50%;width:52px;height:52px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .2s;
+  user-select:none;
+}
+.lb-prev{left:16px;}
+.lb-next{right:16px;}
+.lb-prev:hover,.lb-next:hover{background:rgba(255,255,255,.25);}
+.lb-counter{
+  font-size:.75rem;font-weight:600;
+  color:rgba(255,255,255,.5);letter-spacing:2px;
+}
 
 /* ══════════════════════════════
    RESPONSIVE
@@ -883,15 +923,10 @@ body.cursor-drag  #cur-ring{width:80px;height:80px;opacity:.9;background:var(--g
         </div>
       </div>
       <div class="ps">
-        <div class="ps-lbl">App Screens — hover to pause</div>
-        <div class="ph-strip">
-          <div class="phone-frame"><div class="phone-screen"><img src="jaani-1.png" alt="Jaani 1" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph\'><span class=\'ph-ico\'>📱</span><span class=\'ph-txt\'>jaani-1.png</span></div>'"></div></div>
-          <div class="phone-frame"><div class="phone-screen"><img src="jaani-2.png" alt="Jaani 2" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph\'><span class=\'ph-ico\'>📱</span><span class=\'ph-txt\'>jaani-2.png</span></div>'"></div></div>
-          <div class="phone-frame"><div class="phone-screen"><img src="jaani-3.png" alt="Jaani 3" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph\'><span class=\'ph-ico\'>📱</span><span class=\'ph-txt\'>jaani-3.png</span></div>'"></div></div>
-          <div class="phone-frame"><div class="phone-screen"><img src="jaani-4.png" alt="Jaani 4" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph\'><span class=\'ph-ico\'>📱</span><span class=\'ph-txt\'>jaani-4.png</span></div>'"></div></div>
-        </div>
-        <div class="ps-lbl" style="margin-top:10px">Admin Dashboard</div>
-        <div class="desk-frame"><div class="desk-screen"><img src="jaani-dashboard-1.png" alt="Jaani Dashboard" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph-w\'><span class=\'ph-ico\'>🖥️</span><span class=\'ph-txt\'>jaani-dashboard-1.png</span></div>'"></div></div>
+        <div class="ps-lbl">App Screens — tap to preview</div>
+        <div class="ph-strip" id="shots-jaani-app"></div>
+        <div class="ps-lbl" style="margin-top:10px">Admin Dashboard — tap to preview</div>
+        <div class="ph-strip" id="shots-jaani-dash"></div>
       </div>
     </div>
   </div>
@@ -920,15 +955,10 @@ body.cursor-drag  #cur-ring{width:80px;height:80px;opacity:.9;background:var(--g
         <span class="soon-n">App Store & Play Store release expected within 1 month.</span>
       </div>
       <div class="ps">
-        <div class="ps-lbl">App Screens — hover to pause</div>
-        <div class="ph-strip">
-          <div class="phone-frame"><div class="phone-screen"><img src="meet-1.png" alt="Meet 1" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph\'><span class=\'ph-ico\'>📱</span><span class=\'ph-txt\'>meet-1.png</span></div>'"></div></div>
-          <div class="phone-frame"><div class="phone-screen"><img src="meet-2.png" alt="Meet 2" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph\'><span class=\'ph-ico\'>📱</span><span class=\'ph-txt\'>meet-2.png</span></div>'"></div></div>
-          <div class="phone-frame"><div class="phone-screen"><img src="meet-3.png" alt="Meet 3" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph\'><span class=\'ph-ico\'>📱</span><span class=\'ph-txt\'>meet-3.png</span></div>'"></div></div>
-          <div class="phone-frame"><div class="phone-screen"><img src="meet-4.png" alt="Meet 4" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph\'><span class=\'ph-ico\'>📱</span><span class=\'ph-txt\'>meet-4.png</span></div>'"></div></div>
-        </div>
-        <div class="ps-lbl" style="margin-top:10px">Admin Dashboard</div>
-        <div class="desk-frame"><div class="desk-screen"><img src="meet-dashboard-1.png" alt="Meet Dashboard" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph-w\'><span class=\'ph-ico\'>🖥️</span><span class=\'ph-txt\'>meet-dashboard-1.png</span></div>'"></div></div>
+        <div class="ps-lbl">App Screens — tap to preview</div>
+        <div class="ph-strip" id="shots-meet-app"></div>
+        <div class="ps-lbl" style="margin-top:10px">Admin Dashboard — tap to preview</div>
+        <div class="ph-strip" id="shots-meet-dash"></div>
       </div>
     </div>
   </div>
@@ -953,14 +983,10 @@ body.cursor-drag  #cur-ring{width:80px;height:80px;opacity:.9;background:var(--g
         </div>
       </div>
       <div class="ps">
-        <div class="ps-lbl">App Screens — hover to pause</div>
-        <div class="ph-strip">
-          <div class="phone-frame"><div class="phone-screen"><img src="qlaraty-1.png" alt="Qlaraty 1" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph\'><span class=\'ph-ico\'>📱</span><span class=\'ph-txt\'>qlaraty-1.png</span></div>'"></div></div>
-          <div class="phone-frame"><div class="phone-screen"><img src="qlaraty-2.png" alt="Qlaraty 2" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph\'><span class=\'ph-ico\'>📱</span><span class=\'ph-txt\'>qlaraty-2.png</span></div>'"></div></div>
-          <div class="phone-frame"><div class="phone-screen"><img src="qlaraty-3.png" alt="Qlaraty 3" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph\'><span class=\'ph-ico\'>📱</span><span class=\'ph-txt\'>qlaraty-3.png</span></div>'"></div></div>
-        </div>
-        <div class="ps-lbl" style="margin-top:10px">Admin Dashboard</div>
-        <div class="desk-frame"><div class="desk-screen"><img src="qlaraty-dashboard-1.png" alt="Qlaraty Dashboard" onerror="this.parentElement.parentElement.outerHTML='<div class=\'ph-ph-w\'><span class=\'ph-ico\'>🖥️</span><span class=\'ph-txt\'>qlaraty-dashboard-1.png</span></div>'"></div></div>
+        <div class="ps-lbl">App Screens — tap to preview</div>
+        <div class="ph-strip" id="shots-qlaraty-app"></div>
+        <div class="ps-lbl" style="margin-top:10px">Admin Dashboard — tap to preview</div>
+        <div class="ph-strip" id="shots-qlaraty-dash"></div>
       </div>
     </div>
   </div>
@@ -994,10 +1020,15 @@ body.cursor-drag  #cur-ring{width:80px;height:80px;opacity:.9;background:var(--g
 
 </div><!-- /sw -->
 
-<!-- LIGHTBOX -->
-<div class="lb" id="lb" onclick="closeLB()">
-  <button class="lb-x">✕</button>
-  <img id="lb-img" src="" alt="">
+<!-- LIGHTBOX — fullscreen preview with nav arrows -->
+<div class="lb" id="lb">
+  <button class="lb-x" onclick="closeLB()">✕</button>
+  <button class="lb-prev" onclick="lbNav(-1)">‹</button>
+  <div class="lb-img-wrap">
+    <img id="lb-img" src="" alt="">
+  </div>
+  <button class="lb-next" onclick="lbNav(1)">›</button>
+  <div class="lb-counter" id="lb-counter"></div>
 </div>
 
 <!-- SCRIPTS -->
@@ -1168,17 +1199,103 @@ document.querySelectorAll('.rc,.sk-c,.proj-c,.aw-i,.c-lnk,.edu-c,.aw-list').forE
   });
 });
 
-/* ── LIGHTBOX ── */
-function openLB(src) {
-  document.getElementById('lb-img').src = src;
+/* ══════════════════════════════════════════
+   DYNAMIC SCREENSHOT LOADER
+   Naming convention:
+   App:       jaani-1.png, jaani-2.png ... jaani-20.png
+   Dashboard: jaani-dashboard-1.png ... jaani-dashboard-10.png
+   Same for meet- and qlaraty-
+══════════════════════════════════════════ */
+const PROJECTS = [
+  { appId:'jaani',   appMax:20, dashMax:10 },
+  { appId:'meet',    appMax:20, dashMax:10 },
+  { appId:'qlaraty', appMax:20, dashMax:10 },
+];
+
+let lbImages = [];
+let lbIndex  = 0;
+
+function renderLB() {
+  const img = document.getElementById('lb-img');
+  img.style.opacity = '0';
+  setTimeout(() => { img.src = lbImages[lbIndex]; img.style.opacity = '1'; }, 120);
+  document.getElementById('lb-counter').textContent = (lbIndex+1) + ' / ' + lbImages.length;
+  document.querySelector('.lb-prev').style.display = lbImages.length < 2 ? 'none' : 'flex';
+  document.querySelector('.lb-next').style.display = lbImages.length < 2 ? 'none' : 'flex';
+}
+
+function openLB(images, startIndex) {
+  lbImages = images; lbIndex = startIndex;
+  renderLB();
   document.getElementById('lb').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
+}
+function lbNav(dir) {
+  lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+  renderLB();
 }
 function closeLB() {
   document.getElementById('lb').classList.remove('open');
-  document.body.style.overflow='';
+  document.body.style.overflow = '';
+  lbImages = [];
 }
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeLB(); });
+
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lb').classList.contains('open')) return;
+  if (e.key==='Escape')     closeLB();
+  if (e.key==='ArrowRight') lbNav(1);
+  if (e.key==='ArrowLeft')  lbNav(-1);
+});
+document.getElementById('lb').addEventListener('click', function(e) {
+  if (e.target===this) closeLB();
+});
+
+/* phone frame */
+function makePhone(src, allSrcs, idx) {
+  const f = document.createElement('div');
+  f.className = 'phone-frame'; f.title = 'Tap for fullscreen';
+  f.innerHTML = `<div class="phone-screen"><img src="${src}" alt="Screenshot ${idx+1}" loading="lazy"></div>`;
+  f.addEventListener('click', () => openLB(allSrcs, idx));
+  return f;
+}
+/* desktop frame */
+function makeDesk(src, allSrcs, idx) {
+  const f = document.createElement('div');
+  f.className = 'desk-frame'; f.title = 'Tap for fullscreen';
+  f.innerHTML = `<div class="desk-screen"><img src="${src}" alt="Dashboard ${idx+1}" loading="lazy"></div>`;
+  f.addEventListener('click', () => openLB(allSrcs, idx));
+  return f;
+}
+
+function loadShots(containerId, srcs, type) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  if (srcs.length === 0) {
+    c.innerHTML = `<div class="${type==='app'?'ph-ph':'ph-ph-w'}"><span class="ph-ico">${type==='app'?'📱':'🖥️'}</span><span class="ph-txt">Add ${containerId.split('-').slice(1).join('-')}.png files</span></div>`;
+    return;
+  }
+  srcs.forEach((src, i) => c.appendChild(type==='app' ? makePhone(src,srcs,i) : makeDesk(src,srcs,i)));
+}
+
+function tryLoad(src) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload  = () => resolve(src);
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+}
+
+async function loadProject(proj) {
+  const appP  = Array.from({length:proj.appMax},  (_,i) => tryLoad(`${proj.appId}-${i+1}.png`));
+  const dashP = Array.from({length:proj.dashMax},  (_,i) => tryLoad(`${proj.appId}-dashboard-${i+1}.png`));
+  const [appR, dashR] = await Promise.all([Promise.all(appP), Promise.all(dashP)]);
+  loadShots(`shots-${proj.appId}-app`,  appR.filter(Boolean),  'app');
+  loadShots(`shots-${proj.appId}-dash`, dashR.filter(Boolean), 'dash');
+}
+
+PROJECTS.forEach(p => loadProject(p));
+
 </script>
 </body>
 </html>
